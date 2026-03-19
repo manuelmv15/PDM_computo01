@@ -41,11 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
     CheckBox cbCorreo;
     CheckBox cbSMS;
-    Libro libroTemp;
 
     String Nombre;
 
-
+    String categoria;
 
     EditText etNombre;
 
@@ -100,7 +99,17 @@ public class MainActivity extends AppCompatActivity {
             Log.e("ERROR_APP", "Detalle: ", e);
         }
 
+        sp_categorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                categoria = (String) parent.getItemAtPosition(position);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
@@ -115,22 +124,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void agregarLibro(View view) {
 
-        libroTemp = new Libro();
+       Libro libroTemp = new Libro();
 
-        sp_categorias.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                libroTemp.categoria = (String) parent.getItemAtPosition(position);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         libroTemp.nombreEstudainte = Nombre;
 
+        libroTemp.categoria = categoria;
         libroTemp.nombreLibro  = etNombre.getText().toString();
         libroTemp.nombreLibro  = etNombre.getText().toString();
 
@@ -140,25 +140,30 @@ public class MainActivity extends AppCompatActivity {
         if (rbSelec!=-1) {
 
             RadioButton rb = findViewById(rbSelec);
-            libroTemp.categoria = rb.getText().toString();
+            libroTemp.estado = rb.getText().toString();
 
 
-            if (libroTemp.categoria.equals("Nuevo")) {
+            if (libroTemp.estado.equals("Nuevo")) {
                 libroTemp.img = R.drawable.img_libro1;
-            } else if (libroTemp.categoria.equals("Buen Estado")) {
+            } else if (libroTemp.estado.equals("Buen Estado")) {
                 libroTemp.img = R.drawable.img_libro2;
-            } else if (libroTemp.categoria.equals("Desgastado")) {
+            } else if (libroTemp.estado.equals("Desgastado")) {
                 libroTemp.img = R.drawable.img_libro3;
             }
 
         }
-        if (cbSMS.isActivated()){
-            libroTemp.sms = cbSMS.getText().toString();
+
+        libroTemp.sms =" " ;
+
+        if (cbSMS.isChecked()){
+            libroTemp.sms +=" " + cbSMS.getText().toString();
+
         }
 
-        else
-        if (cbCorreo.isActivated()){
-            libroTemp.sms = cbCorreo.getText().toString();
+        if (cbCorreo.isChecked()){
+
+            Log.i("DEBUG", libroTemp.sms);
+            libroTemp.sms +=" " + cbCorreo.getText().toString();
         }
 
 
