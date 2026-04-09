@@ -79,8 +79,11 @@ public class libro_adapter extends BaseAdapter {
 
             holder.btm.setOnClickListener(v -> {
 
-                ((MainActivity) context).verLibro(l, position);
+                //((MainActivity) context).verLibro(l, position);
 
+                data.remove(position);
+
+                notifyDataSetChanged();
             });
 
         //desde aquui
